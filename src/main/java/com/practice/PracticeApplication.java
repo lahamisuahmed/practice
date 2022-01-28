@@ -1,4 +1,4 @@
-package com.practice.practice;
+package com.practice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,4 +10,7 @@ public class PracticeApplication {
         SpringApplication.run(PracticeApplication.class, args);
     }
 
+    //ModelMapper modelMapper = new ModelMapper();
+    // user here is a prepopulated User instance
+    //UserDTO userDTO = modelMapper.map(user, UserDTO.class);
 }
