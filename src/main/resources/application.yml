@@ -1,4 +1,8 @@
-
+#spring:
+#profiles:
+#active:
+server:
+  port: 8089
 spring:
   datasource:
     url: jdbc:postgresql://localhost/questionmarks
@@ -11,3 +15,33 @@ spring:
       hibernate:
         temp:
           use_jdbc_metadata_defaults: false
+logging:
+  level:
+    root: WARN
+    org:
+      springframework:
+        security: DEBUG
+
+#        logging:
+#        path: /var/logs/
+#        file: TacoCloud.log
+#        level:
+#        root: WARN
+#        org:
+#        springframework:
+#        security: DEBUG
+
+
+#logging:
+#level:
+#tacos: DEBUG
+#---
+#spring:
+#profiles: prod
+#datasource:
+#url: jdbc:mysql://localhost/tacocloud
+#username: tacouser
+#password: tacopassword
+#logging:
+#level:
+#tacos: WARN
