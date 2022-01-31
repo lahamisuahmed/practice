@@ -40,4 +40,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(status).contentType(MediaType.APPLICATION_JSON).body(errorResponse);
     }
 
+    @ExceptionHandler({ApiException.class})
+    public ResponseEntity<ErrorResponse> handleRestApplicationException(ApiException ex) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setStatus(String.valueOf(ex.getStatus().value()));
+        errorResponse.setMessage(ex.getMessage());
+
+        return ResponseEntity.status(ex.getStatus()).contentType(MediaType.APPLICATION_JSON).body(errorResponse);
+    }
+
 }

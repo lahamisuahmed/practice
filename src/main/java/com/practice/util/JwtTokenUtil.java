@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.practice.constants.AppConstants.ROLES;
+import static com.practice.constants.AppConstants.*;
 
 @Component
 public class JwtTokenUtil implements Serializable {
@@ -58,8 +58,8 @@ public class JwtTokenUtil implements Serializable {
         String refresh_token = tokenEncryptionUtil.encryptToken(refreshTokenClaims);
 
         Map<String, String> tokens = new HashMap<>();
-        tokens.put("access_token", access_token);
-        tokens.put("refresh_token", refresh_token);
+        tokens.put(ACCESS_TOKEN, access_token);
+        tokens.put(REFRESH_TOKEN, refresh_token);
 
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setToken(refresh_token);
