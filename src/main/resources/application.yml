@@ -1,6 +1,7 @@
 #spring:
 #profiles:
 #active:
+
 server:
   port: 8089
 spring:
@@ -13,14 +14,17 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQL9Dialect
     properties:
       hibernate:
+        jdbc:
+          time_zone=UTC:
         temp:
           use_jdbc_metadata_defaults: false
-logging:
-  level:
-    root: WARN
-    org:
-      springframework:
-        security: DEBUG
+security:
+  config:
+    issuer-id: 'https://localhost.com'
+    access-token-lifespan: 3600
+    refresh-token-lifespan: 4800
+    signup-token-lifespan: 3600
+    password-reset-token-lifespan: 86400
 
 #        logging:
 #        path: /var/logs/
