@@ -70,6 +70,7 @@ public class JwtTokenUtil implements Serializable {
         AccessToken accessToken = new AccessToken();
         accessToken.setToken(access_token);
         accessToken.setRefreshToken(refreshToken);
+        accessToken.setUser((User) userDetails);
         accessToken.setCreatedAt(DateUtil.convertToLocalDateViaInstant(issueTime));
         accessToken.setExpiryDate(DateUtil.convertToLocalDateViaInstant(accessTokenExpirationTime));
 
@@ -96,7 +97,8 @@ public class JwtTokenUtil implements Serializable {
         EncryptedJWT encryptedJWT = tokenEncryptionUtil.decryptToken(token);
 
         JWTClaimsSet jwtClaimsSet = encryptedJWT.getJWTClaimsSet();
-        Set<Role> userRoles = new HashSet<>();
+
+        Set<Role> userRoles = jwtClaimsSet.getStringListClaim(ROLES).stream().map(Role::new).collect(Collectors.toSet());
 
         User user = new User();
         user.setId(Long.parseLong(jwtClaimsSet.getSubject()));
@@ -113,7 +115,7 @@ public class JwtTokenUtil implements Serializable {
             return true;
         }
     }
-//
+
     public  boolean isTokenExpired(String token) throws Exception {
         EncryptedJWT encryptedJWT = tokenEncryptionUtil.decryptToken(token);
 
@@ -122,23 +124,5 @@ public class JwtTokenUtil implements Serializable {
 
         return currentTime.isAfter(expirationTime);
     }
-
-
-
-//
-//    public Date getExpirationDateFromToken(String token) {
-//        return getClaimFromToken(token, Claims::getExpiration);
-//    }
-//
-//    public String getUsernameFromToken(String token) {
-//        return getClaimFromToken(token, Claims::getSubject);
-//    }
-//
-//    public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
-//        final Claims claims = getAllClaimsFromToken(token);
-//        return claimsResolver.apply(claims);
-//    }
-
-
 
 }

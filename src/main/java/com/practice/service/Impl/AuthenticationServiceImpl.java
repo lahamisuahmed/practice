@@ -3,6 +3,7 @@ package com.practice.service.Impl;
 import com.practice.dto.request.LoginRequest;
 import com.practice.dto.response.LoginResponse;
 import com.practice.exception.ApiException;
+import com.practice.model.Role;
 import com.practice.model.User;
 import com.practice.service.AuthenticationService;
 import com.practice.util.JwtTokenUtil;
@@ -20,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.practice.constants.AppConstants.ACCESS_TOKEN;
 import static com.practice.constants.AppConstants.REFRESH_TOKEN;
@@ -56,7 +58,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             loginResponse.setUserId(String.valueOf(userDetails.getId()));
             loginResponse.setEmail(userDetails.getEmail());
             loginResponse.setPhone(userDetails.getPhone());
-            loginResponse.setRoles(userDetails.getAuthoritiesAsStringList());
+            loginResponse.setRoles(userDetails.getRoles().stream().map(Role::getName).collect(Collectors.toList()));
 
             return loginResponse;
         }catch (DisabledException ex) {

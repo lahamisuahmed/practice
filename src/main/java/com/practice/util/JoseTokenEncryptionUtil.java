@@ -50,12 +50,12 @@ public class JoseTokenEncryptionUtil implements TokenEncryptionUtil{
     }
 
     @Override
-    public String encryptToken(JWTClaimsSet claimsSet) throws JOSEException {
+    public <T> String encryptToken(T claimsSet) throws JOSEException {
         // Request JWT encrypted with RSA-OAEP-256 and 128-bit AES/GCM
         JWEHeader header = new JWEHeader(JWEAlgorithm.RSA_OAEP_256, EncryptionMethod.A128GCM);
 
         // Create the encrypted JWT object
-        EncryptedJWT jwt = new EncryptedJWT(header, claimsSet);
+        EncryptedJWT jwt = new EncryptedJWT(header, (JWTClaimsSet) claimsSet);
 
         // Create an encrypter with the specified public RSA key
         RSAEncrypter encrypter = new RSAEncrypter(getPublicKey());
@@ -64,7 +64,7 @@ public class JoseTokenEncryptionUtil implements TokenEncryptionUtil{
         jwt.encrypt(encrypter);
 
         // Serialise to JWT compact form and return
-        return jwt.serialize();
+        return  jwt.serialize();
     }
 
     @Override

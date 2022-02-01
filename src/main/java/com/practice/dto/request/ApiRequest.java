@@ -4,17 +4,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.practice.dto.MetaDTO;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
-public class ApiRequest<T> {
+public class ApiRequest<T> implements Serializable {
 
     @Valid
-    @NotEmpty(message = "meta section cannot be empty")
+    @NotNull(message = "meta section cannot be empty")
     @JsonProperty(value = "meta")
     private MetaDTO metaDTO;
 
     @Valid
-    @NotEmpty(message = "data cannot be empty")
+    @NotNull(message = "data cannot be empty")
     T data;
 
     public MetaDTO getMetaDTO() {
