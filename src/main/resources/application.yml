@@ -1,0 +1,52 @@
+#spring:
+#profiles:
+#active:
+server:
+  port: 8089
+  servlet:
+    context-path: /api
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost/questionmarks
+    username: postgres
+    password: 12345
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    properties:
+      hibernate:
+        jdbc:
+          time_zone=UTC:
+        temp:
+          use_jdbc_metadata_defaults: false
+security:
+  config:
+    issuer-id: 'https://localhost.com'
+    access-token-lifespan: 3600
+    refresh-token-lifespan: 4800
+    signup-token-lifespan: 3600
+    password-reset-token-lifespan: 86400
+
+#        logging:
+#        path: /var/logs/
+#        file: TacoCloud.log
+#        level:
+#        root: WARN
+#        org:
+#        springframework:
+#        security: DEBUG
+
+
+#logging:
+#level:
+#tacos: DEBUG
+#---
+#spring:
+#profiles: prod
+#datasource:
+#url: jdbc:mysql://localhost/tacocloud
+#username: tacouser
+#password: tacopassword
+#logging:
+#level:
+#tacos: WARN
