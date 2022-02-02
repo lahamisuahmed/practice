@@ -10,6 +10,3 @@ spring:
       hibernate:
         temp:
           use_jdbc_metadata_defaults: false
-logging:
-  level:
-    questions: WARN

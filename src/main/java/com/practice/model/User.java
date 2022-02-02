@@ -1,29 +1,56 @@
 package com.practice.model;
 
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import java.util.Set;
+import javax.persistence.*;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Entity
+@Table(name = "users")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name="username")
     private String username;
+    @Column(name="first_name")
+    private String firstName;
+    @Column(name="last_name")
+    private String lastName;
+    @Column(name="middle_name")
+    private String middleName;
+    @Column(name="email")
+    private String email;
+    @Column(name="phone")
+    private String phone;
+    @Column(name="password")
     private String password;
-    private String fullname;
-    private String street;
-    private String city;
-    private String state;
-    private String zip;
-    private String phoneNumber;
+    @Column(name="enabled")
+    private boolean enabled;
+
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "users_role",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "role_id") }
+    )
+    private Set<Role> roles;
+
+    @OneToMany(mappedBy="user")
+    private Set<AccessToken> accessTokens;
+
+    private int createdBy;
+    private LocalDateTime createdAt;
+    private int modifiedBy;
+    private LocalDateTime modifiedAt;
 
     public Long getId() {
         return id;
@@ -33,68 +60,114 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    @Override
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return String.valueOf(getId());
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getFullname() {
-        return fullname;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public String getStreet() {
-        return street;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
+    public int getCreatedBy() {
+        return createdBy;
     }
 
-    public String getCity() {
-        return city;
+    public void setCreatedBy(int createdBy) {
+        this.createdBy = createdBy;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public String getState() {
-        return state;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public int getModifiedBy() {
+        return modifiedBy;
     }
 
-    public String getZip() {
-        return zip;
+    public void setModifiedBy(int modifiedBy) {
+        this.modifiedBy = modifiedBy;
     }
 
-    public void setZip(String zip) {
-        this.zip = zip;
+    public LocalDateTime getModifiedAt() {
+        return modifiedAt;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public void setModifiedAt(LocalDateTime modifiedAt) {
+        this.modifiedAt = modifiedAt;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Set<AccessToken> getAccessTokens() {
+        return accessTokens;
+    }
+
+    public void setAccessTokens(Set<AccessToken> accessTokens) {
+        this.accessTokens = accessTokens;
     }
 
     @Override
