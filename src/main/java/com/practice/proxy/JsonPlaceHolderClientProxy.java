@@ -1,6 +1,7 @@
 package com.practice.proxy;
 
 import com.practice.config.JsonPlaceHolderConfiguration;
+import com.practice.hystrix.JSONPlaceHolderFallback;
 import com.practice.model.Post;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +10,8 @@ import java.util.List;
 
 @FeignClient(name = "jsonplaceholder",
         url = "https://jsonplaceholder.typicode.com/",
-        configuration = JsonPlaceHolderConfiguration.class)
+        configuration = JsonPlaceHolderConfiguration.class,
+        fallback = JSONPlaceHolderFallback.class)
 public interface JsonPlaceHolderClientProxy {
 
     @PostMapping("/posts")
