@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 
 import static com.practice.constants.AppConstants.ACCESS_TOKEN;
 import static com.practice.constants.AppConstants.REFRESH_TOKEN;
+import static org.springframework.security.core.context.SecurityContextHolder.*;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -46,7 +47,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
             Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            getContext().setAuthentication(authentication);
 
             User userDetails = (User) authentication.getPrincipal();
 
