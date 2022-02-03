@@ -27,6 +27,20 @@ security:
     signup-token-lifespan: 3600
     password-reset-token-lifespan: 86400
 
+#open feign client configuration
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
+#feign:
+#  client:
+#    config:
+#      jplaceholder:
+
+#logging configuration
 #        logging:
 #        path: /var/logs/
 #        file: TacoCloud.log
