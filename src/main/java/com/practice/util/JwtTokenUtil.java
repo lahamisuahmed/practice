@@ -31,16 +31,16 @@ public class JwtTokenUtil implements Serializable {
     @Value("${security.config.refresh-token-lifespan}")
     private int refreshTokenLifespan;
 
-    private final List<String> audience = Arrays.asList("https://aaerlaw.com", "http://localhost:8000");
+    private final List<String> audience = Collections.singletonList("http://localhost:8000");
 
-    TokenEncryptionUtil tokenEncryptionUtil;
+    TokenEncrypter tokenEncrypter;
     AccessTokenRepository accessTokenRepository;
     RefreshTokenRepository refreshTokenRepository;
 
-    public JwtTokenUtil(TokenEncryptionUtil tokenEncryptionUtil,
+    public JwtTokenUtil(TokenEncrypter tokenEncrypter,
                         AccessTokenRepository accessTokenRepository,
                         RefreshTokenRepository refreshTokenRepository) {
-        this.tokenEncryptionUtil = tokenEncryptionUtil;
+        this.tokenEncrypter = tokenEncrypter;
         this.accessTokenRepository = accessTokenRepository;
         this.refreshTokenRepository = refreshTokenRepository;
     }
@@ -54,8 +54,8 @@ public class JwtTokenUtil implements Serializable {
         JWTClaimsSet accessTokenClaims = getJwtClaimsSet(userDetails, issueTime, accessTokenExpirationTime);
         JWTClaimsSet refreshTokenClaims = getJwtClaimsSet(userDetails, issueTime, refreshTokenExpirationTime);
 
-        String access_token = tokenEncryptionUtil.encryptToken(accessTokenClaims);
-        String refresh_token = tokenEncryptionUtil.encryptToken(refreshTokenClaims);
+        String access_token = tokenEncrypter.encryptToken(accessTokenClaims);
+        String refresh_token = tokenEncrypter.encryptToken(refreshTokenClaims);
 
         Map<String, String> tokens = new HashMap<>();
         tokens.put(ACCESS_TOKEN, access_token);
@@ -94,7 +94,7 @@ public class JwtTokenUtil implements Serializable {
 
     public UserDetails getUserDetailsFromToken(String token) throws Exception {
 
-        EncryptedJWT encryptedJWT = tokenEncryptionUtil.decryptToken(token);
+        EncryptedJWT encryptedJWT = tokenEncrypter.decryptToken(token);
 
         JWTClaimsSet jwtClaimsSet = encryptedJWT.getJWTClaimsSet();
 
@@ -117,7 +117,7 @@ public class JwtTokenUtil implements Serializable {
     }
 
     public  boolean isTokenExpired(String token) throws Exception {
-        EncryptedJWT encryptedJWT = tokenEncryptionUtil.decryptToken(token);
+        EncryptedJWT encryptedJWT = tokenEncrypter.decryptToken(token);
 
         LocalDateTime expirationTime = DateUtil.convertToLocalDateTime(encryptedJWT.getJWTClaimsSet().getExpirationTime());
         LocalDateTime currentTime = DateUtil.getCurrentSqlDatetime().toLocalDateTime();

@@ -16,15 +16,14 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
-import java.text.ParseException;
 
 @Component
-public class JoseTokenEncryptionUtil implements TokenEncryptionUtil{
+public class JoseTokenEncryptor implements TokenEncrypter {
 
     final ResourceLoader resourceLoader;
     final ApplicationContext applicationContext;
 
-    public JoseTokenEncryptionUtil(ResourceLoader resourceLoader, ApplicationContext applicationContext) {
+    public JoseTokenEncryptor(ResourceLoader resourceLoader, ApplicationContext applicationContext) {
         this.resourceLoader = resourceLoader;
         this.applicationContext = applicationContext;
     }
